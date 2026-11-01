@@ -1,0 +1,267 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 220 20% 4%;
+    --foreground: 180 100% 90%;
+
+    --card: 220 25% 8%;
+    --card-foreground: 180 100% 90%;
+
+    --popover: 220 25% 8%;
+    --popover-foreground: 180 100% 90%;
+
+    --primary: 180 100% 50%;
+    --primary-foreground: 220 20% 4%;
+
+    --secondary: 280 100% 60%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 220 20% 15%;
+    --muted-foreground: 180 30% 60%;
+
+    --accent: 45 100% 50%;
+    --accent-foreground: 220 20% 4%;
+
+    --destructive: 0 80% 50%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 180 50% 20%;
+    --input: 220 20% 15%;
+    --ring: 180 100% 50%;
+
+    --radius: 0.25rem;
+
+    /* Game-specific tokens */
+    --glow-primary: 180 100% 50%;
+    --glow-secondary: 280 100% 60%;
+    --glow-accent: 45 100% 50%;
+    --hud-line: 180 50% 30%;
+    --screen-overlay: 220 20% 2%;
+  }
+
+  .dark {
+    --background: 220 20% 4%;
+    --foreground: 180 100% 90%;
+    --card: 220 25% 8%;
+    --card-foreground: 180 100% 90%;
+    --popover: 220 25% 8%;
+    --popover-foreground: 180 100% 90%;
+    --primary: 180 100% 50%;
+    --primary-foreground: 220 20% 4%;
+    --secondary: 280 100% 60%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 220 20% 15%;
+    --muted-foreground: 180 30% 60%;
+    --accent: 45 100% 50%;
+    --accent-foreground: 220 20% 4%;
+    --destructive: 0 80% 50%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 180 50% 20%;
+    --input: 220 20% 15%;
+    --ring: 180 100% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground overflow-hidden;
+    font-family: 'Rajdhani', sans-serif;
+  }
+
+  html, body, #root {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+@layer components {
+  .font-display {
+    font-family: 'Orbitron', sans-serif;
+  }
+
+  .glow-text {
+    text-shadow: 0 0 10px hsl(var(--primary)), 0 0 20px hsl(var(--primary)), 0 0 40px hsl(var(--primary) / 0.5);
+  }
+
+  .glow-text-secondary {
+    text-shadow: 0 0 10px hsl(var(--secondary)), 0 0 20px hsl(var(--secondary)), 0 0 40px hsl(var(--secondary) / 0.5);
+  }
+
+  .glow-text-accent {
+    text-shadow: 0 0 10px hsl(var(--accent)), 0 0 20px hsl(var(--accent)), 0 0 40px hsl(var(--accent) / 0.5);
+  }
+
+  .hud-border {
+    border: 1px solid hsl(var(--hud-line));
+    box-shadow: inset 0 0 20px hsl(var(--primary) / 0.1), 0 0 10px hsl(var(--primary) / 0.2);
+  }
+
+  .hud-corner {
+    position: relative;
+  }
+
+  .hud-corner::before,
+  .hud-corner::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-color: hsl(var(--primary));
+  }
+
+  .hud-corner::before {
+    top: -1px;
+    left: -1px;
+    border-top: 2px solid;
+    border-left: 2px solid;
+  }
+
+  .hud-corner::after {
+    bottom: -1px;
+    right: -1px;
+    border-bottom: 2px solid;
+    border-right: 2px solid;
+  }
+
+  .scanline {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .scanline::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      hsl(var(--primary) / 0.03) 2px,
+      hsl(var(--primary) / 0.03) 4px
+    );
+    pointer-events: none;
+  }
+
+  .menu-item {
+    @apply relative px-8 py-4 font-display text-xl tracking-widest uppercase cursor-pointer transition-all duration-300;
+    @apply border border-transparent;
+  }
+
+  .menu-item:hover,
+  .menu-item.active {
+    @apply border-primary;
+    background: linear-gradient(90deg, hsl(var(--primary) / 0.1) 0%, transparent 100%);
+    text-shadow: 0 0 10px hsl(var(--primary));
+  }
+
+  .menu-item::before {
+    content: '>';
+    @apply absolute left-2 opacity-0 transition-opacity duration-300;
+  }
+
+  .menu-item:hover::before,
+  .menu-item.active::before {
+    @apply opacity-100;
+  }
+
+  .xp-bar {
+    @apply h-2 rounded-full overflow-hidden;
+    background: hsl(var(--muted));
+  }
+
+  .xp-bar-fill {
+    @apply h-full rounded-full;
+    background: linear-gradient(90deg, hsl(var(--primary)), hsl(var(--secondary)));
+    box-shadow: 0 0 10px hsl(var(--primary));
+  }
+
+  .skill-bar {
+    @apply h-3 rounded-sm overflow-hidden relative;
+    background: hsl(var(--muted));
+  }
+
+  .skill-bar-fill {
+    @apply h-full;
+    background: linear-gradient(90deg, hsl(var(--primary)), hsl(var(--accent)));
+    box-shadow: 0 0 10px hsl(var(--primary));
+  }
+
+  .mission-card {
+    @apply relative p-4 md:p-6 hud-border hud-corner cursor-pointer;
+    background: hsl(var(--card));
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+    transform-style: preserve-3d;
+    will-change: transform;
+  }
+
+  .mission-card:hover {
+    @apply border-primary;
+    box-shadow: 0 0 30px hsl(var(--primary) / 0.3), 0 20px 40px hsl(var(--background) / 0.5);
+  }
+
+  .tilt-card {
+    transform-style: preserve-3d;
+    transition: transform 0.15s ease-out, box-shadow 0.3s ease;
+    will-change: transform;
+  }
+
+  .tilt-card:hover {
+    box-shadow: 0 0 30px hsl(var(--primary) / 0.3), 0 25px 50px hsl(var(--background) / 0.6);
+  }
+
+  @keyframes screenShake {
+    0%, 100% { transform: translateX(0); }
+    10% { transform: translateX(-5px) translateY(2px); }
+    20% { transform: translateX(5px) translateY(-2px); }
+    30% { transform: translateX(-3px) translateY(1px); }
+    40% { transform: translateX(3px) translateY(-1px); }
+    50% { transform: translateX(-2px); }
+    60% { transform: translateX(2px); }
+    70% { transform: translateX(-1px); }
+    80% { transform: translateX(1px); }
+  }
+
+  .screen-shake {
+    animation: screenShake 0.4s ease-out;
+  }
+
+  .pulse-glow {
+    animation: pulseGlow 2s ease-in-out infinite;
+  }
+
+  @keyframes pulseGlow {
+    0%, 100% {
+      text-shadow: 0 0 10px hsl(var(--primary)), 0 0 20px hsl(var(--primary)), 0 0 40px hsl(var(--primary) / 0.5);
+    }
+    50% {
+      text-shadow: 0 0 20px hsl(var(--primary)), 0 0 40px hsl(var(--primary)), 0 0 60px hsl(var(--primary));
+    }
+  }
+
+  .blink {
+    animation: blink 1s step-end infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  .grid-bg {
+    background-image: 
+      linear-gradient(hsl(var(--hud-line) / 0.3) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--hud-line) / 0.3) 1px, transparent 1px);
+    background-size: 50px 50px;
+  }
+}
